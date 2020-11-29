@@ -39,4 +39,14 @@ public class ArtistController {
         return artistRepository.findAllByNameContaining(name, PageRequest.of(page, size, sortDirection, sortProperty));
     }
 
+    @GetMapping
+    public Page<Artist> ListArtist(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty,
+            @RequestParam(value = "sortDirection", defaultValue = "ASC") Sort.Direction sortDirection){
+
+        return artistRepository.findAll(PageRequest.of(page, size, sortDirection, sortProperty));
+    }
+
 }
