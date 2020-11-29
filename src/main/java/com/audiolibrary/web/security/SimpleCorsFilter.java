@@ -1,4 +1,4 @@
-package com.audiolibrary.web;
+package com.audiolibrary.web.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
