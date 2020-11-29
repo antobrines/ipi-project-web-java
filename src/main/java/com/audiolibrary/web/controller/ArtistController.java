@@ -1,13 +1,16 @@
 package com.audiolibrary.web.controller;
 
 
+import com.audiolibrary.web.model.Album;
 import com.audiolibrary.web.model.Artist;
+import com.audiolibrary.web.repository.AlbumRepository;
 import com.audiolibrary.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +25,11 @@ public class ArtistController {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private AlbumRepository albumRepository;
+
+    private Boolean DELETE_ALBUMS_WITH_ARTIST = false;
 
     private void ExceptionForPagination(String name, Integer page, Integer size, Sort.Direction sortDirection, String sortProperty){
         List<String> sortPropertyList = Arrays.asList("name", "id");
@@ -130,6 +138,31 @@ public class ArtistController {
         }
 
         return artistRepository.save(artist);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void deleteArtist(@PathVariable ("id") Integer id){
+        Optional<Artist> artistOptional = artistRepository.findById(id);
+
+        if(artistOptional.isEmpty()) {
+            throw new EntityNotFoundException("L'artiste avec l'id : " + id + ", n'existe pas !");
+        }
+
+        Artist artist = artistOptional.get();
+
+        if(!artist.getAlbums().isEmpty()) {
+            if (DELETE_ALBUMS_WITH_ARTIST) {
+                List<Album> albums = artist.getAlbums();
+                //CASCADE ?
+                for (Album album : albums) {
+                    albumRepository.delete(album);
+                }
+            }else {
+                throw new DataIntegrityViolationException("Cet artiste dispose d'albums, vous ne pouvez pas le supprimer !");
+            }
+        }
+        artistRepository.deleteById(id);
     }
 
 }
