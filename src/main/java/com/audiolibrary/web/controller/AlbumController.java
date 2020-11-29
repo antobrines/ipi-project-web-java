@@ -1,11 +1,16 @@
 package com.audiolibrary.web.controller;
 
 import com.audiolibrary.web.model.Album;
+import com.audiolibrary.web.model.Artist;
 import com.audiolibrary.web.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 
 @RestController
@@ -35,6 +40,17 @@ public class AlbumController {
         }
         album.setTitle(titleTrim);
         return albumRepository.save(album);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAlbum (@PathVariable("id") Integer id){
+        Optional<Album> albumOptional = albumRepository.findById(id);
+        if(albumOptional.isEmpty()) {
+            throw new EntityNotFoundException("L'album avec l'id : " + id + ", n'existe pas !");
+        }
+
+        albumRepository.deleteById(id);
     }
 
 }
