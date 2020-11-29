@@ -4,9 +4,11 @@ package com.audiolibrary.web.controller;
 import com.audiolibrary.web.model.Artist;
 import com.audiolibrary.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -80,6 +82,27 @@ public class ArtistController {
         ExceptionForPagination(null, page, size, sortDirection, sortProperty);
 
         return artistRepository.findAll(PageRequest.of(page, size, sortDirection, sortProperty));
+    }
+
+    @RequestMapping(
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Artist createArtist(@RequestBody Artist artist) {
+        if (artist.getName() == null) {
+            throw new IllegalStateException ("L'artiste ne peut avoir un nom 'null' !");
+        }
+
+        if (artist.getName().trim().isEmpty()) {
+            throw new IllegalStateException ("L'artiste ne peut avoir un nom vide !");
+        }
+
+        if(artistRepository.existsByName(artist.getName().trim())) {
+            throw new DataIntegrityViolationException("L'artiste avec le nom : " + artist.getName() + ", existe déjà !");
+        }
+
+        return artistRepository.save(artist);
     }
 
 }
