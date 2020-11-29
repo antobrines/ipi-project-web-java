@@ -12,5 +12,4 @@ public interface ArtistRepository extends JpaRepository<Artist, Integer> {
     Page<Artist> findAllByNameContaining(String name, Pageable pageable);
 
     Boolean existsByName(String name);
-    List<Artist> findAllByNameEquals(String name);
 }

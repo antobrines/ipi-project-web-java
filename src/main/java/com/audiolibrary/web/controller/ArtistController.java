@@ -105,4 +105,31 @@ public class ArtistController {
         return artistRepository.save(artist);
     }
 
+    @RequestMapping(
+            value = "/{id}",
+            method = RequestMethod.PUT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+
+    public Artist updateArtist(@PathVariable("id") Integer id, @RequestBody Artist artist){
+        if (artist.getName().trim().isEmpty()) {
+            throw new IllegalStateException ("L'artiste doit avoir un nom !");
+        }
+
+        if(!artistRepository.existsById(id)) {
+            throw new EntityNotFoundException("L'artiste avec l'id : " + id + ", n'existe pas !");
+        }
+
+        if(!id.equals(artist.getId())) {
+            throw new IllegalArgumentException("L'id ne correspond pas à celui de cet artiste");
+        }
+
+        if(artistRepository.existsByName(artist.getName().trim())){
+            throw new DataIntegrityViolationException("L'artiste existe déjà !");
+        }
+
+        return artistRepository.save(artist);
+    }
+
 }
