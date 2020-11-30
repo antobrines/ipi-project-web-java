@@ -6,6 +6,7 @@ import com.audiolibrary.web.model.Artist;
 import com.audiolibrary.web.repository.AlbumRepository;
 import com.audiolibrary.web.repository.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,8 +29,8 @@ public class ArtistController {
 
     @Autowired
     private AlbumRepository albumRepository;
-
-    private Boolean DELETE_ALBUMS_WITH_ARTIST = false;
+    @Value("${deleteAlbumsWithArtist}")
+    private Boolean DELETE_ALBUMS_WITH_ARTIST;
 
     private void ExceptionForPagination(String name, Integer page, Integer size, Sort.Direction sortDirection, String sortProperty){
         List<String> sortPropertyList = Arrays.asList("name", "id");
@@ -43,6 +44,9 @@ public class ArtistController {
         }
 
         if (name != null){
+            if(page < 0){
+                throw new IllegalArgumentException("Le numéro de page ne peut être inférieur à 0");
+            }
             maxPage = artistRepository.findAllByNameContaining(name, PageRequest.of(
                     page,
                     size,
