@@ -1,25 +1,13 @@
 package com.audiolibrary.web.controller;
 
-
-import com.audiolibrary.web.model.Album;
 import com.audiolibrary.web.model.Artist;
-import com.audiolibrary.web.repository.AlbumRepository;
-import com.audiolibrary.web.repository.ArtistRepository;
 import com.audiolibrary.web.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityNotFoundException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/artists")
