@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
+import java.security.Signature;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -50,10 +51,12 @@ public class ArtistService {
                     sortProperty)
             ).getTotalPages() - 1;
         }else{
-            maxPage = (int) artistRepository.count() / size - 1;
+            maxPage = (int) artistRepository.count() / size;
         }
 
         if (page < 0 || page > maxPage){
+            System.out.println(page);
+            System.out.println(maxPage);
             throw new IllegalArgumentException("Le numéro de page ne peut être inférieur à 0 ou supérieur à " + maxPage);
         }
     }
@@ -66,7 +69,7 @@ public class ArtistService {
         throw new EntityNotFoundException("L'artiste d'identifiant " + id + " n'existe pas.");
     }
 
-    public Page<Artist> findMyName(String name, Integer page, Integer size, Sort.Direction sortDirection, String sortProperty) {
+    public Page<Artist> findByName(String name, Integer page, Integer size, Sort.Direction sortDirection, String sortProperty) {
 
         ExceptionForPagination(name, page, size, sortDirection, sortProperty);
 

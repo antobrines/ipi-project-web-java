@@ -30,7 +30,7 @@ public class ArtistController {
             @RequestParam(value = "sortProperty", defaultValue = "name") String sortProperty,
             @RequestParam(value = "sortDirection", defaultValue = "ASC") Sort.Direction sortDirection){
 
-        return artistService.findMyName(name, page, size, sortDirection, sortProperty);
+        return artistService.findByName(name, page, size, sortDirection, sortProperty);
     }
 
     @GetMapping
