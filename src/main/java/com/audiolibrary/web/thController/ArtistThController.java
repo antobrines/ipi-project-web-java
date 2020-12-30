@@ -95,7 +95,7 @@ public class ArtistThController {
     }
 
 
-    @PostMapping(produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/delete_albums_with_artist")
+    @GetMapping(produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/delete_albums_with_artist")
     public RedirectView changeDeleteAlbumsWithArtist(@RequestParam(value = "value", defaultValue = "false") Boolean value, @RequestParam("id") Integer id){
         artistService.changeDeleteAlbumsWithArtist(value);
         return new RedirectView("/th/artists/"+id);

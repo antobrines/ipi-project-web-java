@@ -41,19 +41,16 @@
 								</div>
 							</form>
 
-							<form action="/th/artists/delete_albums_with_artist" id="changeAlbum" method="post" th:if="!${#httpServletRequest.requestURI == '/th/artists/new'}">
+							<form action="/th/artists/delete_albums_with_artist" id="changeAlbum" method="get" th:if="!${#httpServletRequest.requestURI == '/th/artists/new'}">
 								<div class="custom-control custom-checkbox">
-									<input type="checkbox" class="custom-control-input" id="value" name="value" th:checked="${deleteAlbumsWithArtist}">
+									<input type="checkbox" class="custom-control-input" id="value" name="value" th:checked="${deleteAlbumsWithArtist}" th:onclick="|document.forms['changeAlbum'].submit()|">
 									<input type="hidden"
 										   id="id"
 										   name="id"
 										   th:if="${artist.id}"
 										   th:value="${artist.id}"
 									/>
-
 									<label class="custom-control-label" for="value">Supprimer les albums avec les artistes</label>
-
-									<input form="changeAlbum" class="btn btn-success" type="submit" value="Valider">
 								</div>
 							</form>
 
