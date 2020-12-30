@@ -144,5 +144,14 @@ public class ArtistService {
         artistRepository.deleteById(id);
     }
 
+    public Boolean getDELETE_ALBUMS_WITH_ARTIST(){
+        return DELETE_ALBUMS_WITH_ARTIST;
+    }
+
+    public void changeDeleteAlbumsWithArtist(Boolean value){
+        System.out.println(value);
+        DELETE_ALBUMS_WITH_ARTIST = value;
+    }
+
 
 }

@@ -17,7 +17,7 @@
 			<div class="container">
 				<h2>Détail de l'artiste <span th:text="${artist.name}">r</span></h2>
 				<div class="row">
-					<div class="col-lg-10">
+					<div class="col-lg-12">
 						<div class="form-group">
 							<form th:action="${artist.id} ? '/th/artists/update' : '/th/artists'" id="saveArtistForm" method="post">
 								<input type="hidden"
@@ -38,6 +38,22 @@
 									<input form="saveArtistForm" class="btn btn-success" type="submit" value="Enregistrer">
 									<div style="width: 2em"></div>
 									<a th:href="${artist.id}+'/delete'" class="btn btn-primary ember-view" >Supprimer</a>
+								</div>
+							</form>
+
+							<form action="/th/artists/delete_albums_with_artist" id="changeAlbum" method="post" th:if="!${#httpServletRequest.requestURI == '/th/artists/new'}">
+								<div class="custom-control custom-checkbox">
+									<input type="checkbox" class="custom-control-input" id="value" name="value" th:checked="${deleteAlbumsWithArtist}">
+									<input type="hidden"
+										   id="id"
+										   name="id"
+										   th:if="${artist.id}"
+										   th:value="${artist.id}"
+									/>
+
+									<label class="custom-control-label" for="value">Supprimer les albums avec les artistes</label>
+
+									<input form="changeAlbum" class="btn btn-success" type="submit" value="Valider">
 								</div>
 							</form>
 

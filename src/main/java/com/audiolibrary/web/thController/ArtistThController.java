@@ -22,6 +22,7 @@ public class ArtistThController {
     public String getArtistById(@PathVariable("id") Integer id, final ModelMap model) {
         Artist artist = artistService.findById(id);
         model.put("artist", artist);
+        model.put("deleteAlbumsWithArtist", artistService.getDELETE_ALBUMS_WITH_ARTIST());
         return "detailArtist";
     }
 
@@ -91,5 +92,12 @@ public class ArtistThController {
     public RedirectView deleteEmploye(@PathVariable Integer id){
         artistService.deleteArtist(id);
         return new RedirectView("/th/artists?page=0&size=10&sortProperty=name&sortDirection=ASC");
+    }
+
+
+    @PostMapping(produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE, value = "/delete_albums_with_artist")
+    public RedirectView changeDeleteAlbumsWithArtist(@RequestParam(value = "value", defaultValue = "false") Boolean value, @RequestParam("id") Integer id){
+        artistService.changeDeleteAlbumsWithArtist(value);
+        return new RedirectView("/th/artists/"+id);
     }
 }
