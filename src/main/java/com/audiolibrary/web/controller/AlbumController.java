@@ -21,7 +21,7 @@ public class AlbumController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Album createAlbum (@RequestBody Album album) {
-        return albumService.createAlbum(album);
+        return albumService.createAlbum(album, null);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

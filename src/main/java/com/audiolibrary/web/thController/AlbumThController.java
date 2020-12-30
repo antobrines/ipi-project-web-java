@@ -33,7 +33,7 @@ public class AlbumThController {
         album.setArtist(optionalArtist.get());
         Integer idArtist = optionalArtist.get().getId();
         //Search for artist albums not for all artists
-        albumService.createAlbum(album);
+        albumService.createAlbum(album, artistId);
 
         return new RedirectView( "/th/artists/"+ idArtist);
     }
