@@ -10,7 +10,7 @@ import javax.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class AllExceptionHandler  {
-
+    /*
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleEntityNotFoundException(EntityNotFoundException exception) {
@@ -34,4 +34,5 @@ public class AllExceptionHandler  {
     public String ConflictException(DataIntegrityViolationException exception) {
         return exception.getMessage();
     }
+     */
 }
