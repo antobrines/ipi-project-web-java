@@ -54,7 +54,9 @@ public class ArtistService {
             maxPage = (int) artistRepository.count() / size;
         }
 
-        if (page < 0 || page > maxPage){
+
+
+        if (page < 0 || page > maxPage && maxPage != -1){
             System.out.println(page);
             System.out.println(maxPage);
             throw new IllegalArgumentException("Le numéro de page ne peut être inférieur à 0 ou supérieur à " + maxPage);

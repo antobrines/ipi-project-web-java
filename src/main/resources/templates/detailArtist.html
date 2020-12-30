@@ -32,39 +32,50 @@
 									   name="name"
 									   th:value="${artist.name}"
 									   class="ember-text-field form-control ember-view"/>
+
+								<div style="height: 2em"></div>
+								<div style="display: flex">
+									<input form="saveArtistForm" class="btn btn-success" type="submit" value="Enregistrer">
+									<div style="width: 2em"></div>
+									<a th:href="${artist.id}+'/delete'" class="btn btn-primary ember-view" >Supprimer</a>
+								</div>
 							</form>
+
 							<div style="height: 2em"></div>
-							<div style="display: flex">
-								<input form="saveArtistForm" class="btn btn-primary" type="submit" value="Enregistrer">
-								<div style="width: 2em"></div>
-								<a th:href="${artist.id}+'/delete'" class="btn btn-danger">Supprimer</a>
-							</div>
-							<div style="height: 2em"></div>
-							<label for="performance" class="form-control-label">Albums</label>
+
+							<label class="form-control-label">Albums</label>
 							<div class="row">
-								<div class="row">
-									<div class="col-lg-10">
-										<div class="list-group">
-											<li class="list-group-item">&nbsp;Let There Be Rock</li>
-											<li class="list-group-item">&nbsp;For Those About To Rock We Salute You</li>
-										</div>
-									</div>
-									<div class="col-lg-2 text-center">
-										<div class="list-group text-center">
-											<button class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></button>
-											<button class="btn-danger list-group-item list-group-item-action"><span class="glyphicon glyphicon-remove"></span></button>
-										</div>
+								<div class="col-lg-10">
+									<div class="list-group">
+										<li class="list-group-item" th:each="album : ${artist.albums}"
+											th:text="${album.title}"></li>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-lg-10">
-										<input type="text" placeholder="Ajouter un album..." class="form-control ember-text-field ember-view">
-									</div>
-									<div class="col-lg-2 text-center">
-										<button class="btn-success list-group-item list-group-item-action"><span class="glyphicon glyphicon-plus"></span></button>
+								<div class="col-lg-2 text-center">
+									<div class="list-group text-center">
+										<a th:href="'/th/albums/'+ ${album.id}" class="btn-danger list-group-item list-group-item-action" th:each="album : ${artist.albums}">
+											<span class="glyphicon glyphicon-remove"></span>
+										</a>
 									</div>
 								</div>
 							</div>
+
+							<form class="row" action="/th/albums" method="post">
+								<div class="col-lg-10">
+									<input type="text" placeholder="Ajouter un album :" name="title" id ="title"
+										   class="form-control ember-text-field ember-view"
+									/>
+									<input type="hidden" name="artistId" id ="artistId"
+										   th:value="${artist.id}"
+									/>
+								</div>
+								<div class="col-lg-2 text-center">
+									<button class="btn-success list-group-item list-group-item-action">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</div>
+							</form>
+
 						</div>
 					</div>
 				</div>

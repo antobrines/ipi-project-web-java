@@ -16,7 +16,6 @@ public class ArtistController {
     @Autowired
     private ArtistService artistService;
 
-
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public Artist getArtistById(@PathVariable("id") Integer id){
         return artistService.findById(id);
