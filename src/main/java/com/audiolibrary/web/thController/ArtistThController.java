@@ -69,13 +69,13 @@ public class ArtistThController {
     @GetMapping(value = "/new")
     public String createArtist(final ModelMap model){
         Artist artist = new Artist();
-        model.put("artist",artist);
+        model.put("artist", artist);
         return "detailArtist";
     }
 
     @PostMapping(produces = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public RedirectView saveArtist(final ModelMap model,Artist artist){
-        Artist artistSave=  artistService.createArtist(artist);
+    public RedirectView saveArtist(final ModelMap model, Artist artist){
+        Artist artistSave = artistService.createArtist(artist);
         return new RedirectView("/th/artists/" + artistSave.getId());
     }
 
@@ -89,7 +89,7 @@ public class ArtistThController {
 
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-    public RedirectView deleteEmploye(@PathVariable Integer id){
+    public RedirectView deleteArtist(@PathVariable Integer id){
         artistService.deleteArtist(id);
         return new RedirectView("/th/artists?page=0&size=10&sortProperty=name&sortDirection=ASC");
     }

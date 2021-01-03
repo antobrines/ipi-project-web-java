@@ -25,14 +25,14 @@
 									   name="id"
 									   th:if="${artist.id}"
 									   th:value="${artist.id}"
-									   class="ember-text-field form-control ember-view"/>
+								/>
 								<label for="name" class="form-control-label">Nom</label>
 								<input type="text"
 									   id="name"
 									   name="name"
 									   th:value="${artist.name}"
-									   class="ember-text-field form-control ember-view"/>
-
+									   class="ember-text-field form-control ember-view"
+								/>
 								<div style="height: 2em"></div>
 								<div style="display: flex">
 									<input form="saveArtistForm" class="btn btn-success" type="submit" value="Enregistrer">
@@ -40,17 +40,18 @@
 									<a th:href="${artist.id}+'/delete'" class="btn btn-primary ember-view" >Supprimer</a>
 								</div>
 							</form>
-
+							<br>
 							<form action="/th/artists/delete_albums_with_artist" id="changeAlbum" method="get" th:if="!${#httpServletRequest.requestURI == '/th/artists/new'}">
 								<div class="custom-control custom-checkbox">
 									<input type="checkbox" class="custom-control-input" id="value" name="value" th:checked="${deleteAlbumsWithArtist}" th:onclick="|document.forms['changeAlbum'].submit()|">
+
 									<input type="hidden"
 										   id="id"
 										   name="id"
 										   th:if="${artist.id}"
 										   th:value="${artist.id}"
 									/>
-									<label class="custom-control-label" for="value">Supprimer les albums avec les artistes</label>
+									<label class="custom-control-label" for="value">Supprimer l'artiste avec ses albums</label>
 								</div>
 							</form>
 
@@ -75,10 +76,15 @@
 
 							<form class="row" action="/th/albums" method="post">
 								<div class="col-lg-10">
-									<input type="text" placeholder="Ajouter un album :" name="title" id ="title"
+									<input type="text"
+										   placeholder="Ajouter un album :"
+										   name="title"
+										   id ="title"
 										   class="form-control ember-text-field ember-view"
 									/>
-									<input type="hidden" name="artistId" id ="artistId"
+									<input type="hidden"
+										   name="artistId"
+										   id ="artistId"
 										   th:value="${artist.id}"
 									/>
 								</div>

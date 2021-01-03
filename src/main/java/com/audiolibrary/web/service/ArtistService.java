@@ -152,6 +152,4 @@ public class ArtistService {
         System.out.println(value);
         DELETE_ALBUMS_WITH_ARTIST = value;
     }
-
-
 }

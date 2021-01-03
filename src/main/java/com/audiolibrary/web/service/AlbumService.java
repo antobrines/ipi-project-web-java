@@ -21,27 +21,29 @@ public class AlbumService {
     private ArtistRepository artistRepository;
 
     public Album createAlbum(Album album, Integer artistId) {
+        if (album.getTitle() == null) {
+            throw new IllegalStateException ("L'album ne peut avoir un titre 'null' !");
+        }
+
         String titleTrim = album.getTitle().trim();
         if (artistId != null){
             Optional<Artist> optionalArtist = artistRepository.findById(artistId);
             List<Album> albums = optionalArtist.get().getAlbums();
             for(Album albumC : albums){
                 if(albumC.getTitle().trim().equals(titleTrim)){
-                    throw new DataIntegrityViolationException("L'album "+ titleTrim + " existe déjà dans"+ artistRepository.findById(artistId).get().getName());
+                    throw new DataIntegrityViolationException("L'artiste "+ artistRepository.findById(artistId).get().getName() + " possède déjà l'album "+ titleTrim);
                 }
             }
         }else if(albumRepository.existsByTitle(titleTrim)){
             throw new DataIntegrityViolationException("L'album "+ titleTrim + " existe déjà !");
         }
 
-
-        if (album.getTitle() == null) {
-            throw new IllegalStateException ("L'album ne peut avoir un titre 'null' !");
-        }
-
         if (titleTrim.isEmpty()) {
             throw new IllegalStateException ("L'album ne peut avoir un titre vide !");
         }
+
+        Optional<Artist> optionalArtist = artistRepository.findById(artistId);
+        album.setArtist(optionalArtist.get());
         album.setTitle(titleTrim);
         return albumRepository.save(album);
     }
